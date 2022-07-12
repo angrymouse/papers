@@ -2,11 +2,9 @@
 All my papers
 ```mermaid
 sequenceDiagram
-    participant user
-    participant [example](example.com)
+    participant dotcom
     participant iframe
-    participant ![viewscreen](./.tiny-icon.png)
-    user->>dotcom: Go to the [example](example.com) page
+    participant viewscreen
     dotcom->>iframe: loads html w/ iframe url
     iframe->>viewscreen: request template
     viewscreen->>iframe: html & javascript
