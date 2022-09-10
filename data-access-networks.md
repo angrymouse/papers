@@ -40,4 +40,5 @@ To do it, we assume that there's no big (>67%) changes in voting power between 2
 If we take this assumption, we can make old validators sign new list of voting powers and serve it.
 
 Scheme below describes how self-migrated voting power lists can work.
+
 ![self-updating-voting-powers-01](https://user-images.githubusercontent.com/40735471/189504918-d3b5866a-10e3-4307-917b-b3983557ebc3.png)
