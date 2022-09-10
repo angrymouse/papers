@@ -25,3 +25,14 @@ But SPV haves few lacks:
 - Lite nodes require healthy altruistic full nodes in network.
 - Not suitable for smart contracts platforms, as there's big contract state needed to confirm.
 
+## Dedicated network
+Solution can be found in dedicated Proof of Stake network for resolving queries.
+
+When we use PoS as our consensus algorithm, we assume that we trust majority of validators in this network, so why not make them sign query replies for you?
+
+We only need lite node to store list of voting powers of our validators to work well.
+
+### Self-migrated list of voting powers
+We can make upgrades of voting powers knowing only previous voting powers. To do it, we assume that there's no big (>67%) changes in voting power between 2 different voting power states (We assume it in every PoS chain, if there's big change of voting powers, old validators can just reject signing delegation transaction and not let move themselves out of control).
+If we take this assumption, we can make old validators sign new list of voting powers and serve it.
+
