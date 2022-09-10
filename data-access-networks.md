@@ -23,4 +23,5 @@ Lite node is blockchain node connects to blockchain's p2p swarm, acts like full 
 But SPV haves few lacks:
 - It is very complex to use it with Proof of Stake blockchains.
 - Lite nodes require healthy altruistic full nodes in network.
-- Not suitable for smart contracts platforms.
+- Not suitable for smart contracts platforms, as there's big contract state needed to confirm.
+
