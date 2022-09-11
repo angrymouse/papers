@@ -1,4 +1,5 @@
-# Introduction
+// WIP
+#Introduction
 Since bitcoin's invention, many blockchains were created with decentralization in mind. And it works: You really can install full chain node and have access to your blockchain in decentralized way. 
 
 But operating full blockchain node requires relatively good technical knowledge, open ports, big SSD drive and CPU (sometimes even GPU to make it faster) powers.
@@ -70,6 +71,12 @@ As we already know, we can make stateless, "blind" transactions knowing absolute
 It allows us to incentivize validators to reply on your queries.
 
 It involves making query into 3-layer structure/protocol that contains 3 transactions in it:
-1. Pledge deposit 
+1. Pledge deposit and query info
 2. Rewarding of validators who replied
 3. Punishment of validators who replied with misleading info
+
+So way of our query will look like this:
+- Lite node needs some info about chain, it forms query, selects pledge amount that it thinks most validators will accept, selects mining fee for pledge transaction and submits it in blind way
+
+
+# //WIP
