@@ -49,7 +49,7 @@ If we look precisely, then we can understand that we don't need any info about a
 
 So we can avoid using centralized API endpoints for broadcasting transactions, just form transaction, sign and broadcast directly to p2p swam.
 
-### Safe decentralized queries with only small piece of knowledge about chain
+### Safe and decentralized queries with only small piece of knowledge about chain
 
 Now, when we understand how to keep voting powers always updated, we have ultimate method to verify data about chain without storing chain itself: We can just ask validators to sign reply to query and give it to you. Reply that will get 51%+ of voting power can be considered as truth.
 
@@ -63,3 +63,13 @@ Queries load validator nodes not less if not more (nodes need to go through inde
 
 So we need to add mining fee for queries too, to prevent abuse of overloading validator nodes with queries and reward validators who reply with right data.
 
+### Pledge system
+
+As we already know, we can make stateless, "blind" transactions knowing absolutely nothing about chain state.
+
+It allows us to incentivize validators to reply on your queries.
+
+It involves making query into 3-layer structure/protocol that contains 3 transactions in it:
+1. Pledge deposit 
+2. Rewarding of validators who replied
+3. Punishment of validators who replied with misleading info
