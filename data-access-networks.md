@@ -42,3 +42,10 @@ If we take this assumption, we can make old validators sign new list of voting p
 Scheme below describes how self-migrated voting power lists can work.
 
 ![self-updating-voting-powers-01](https://user-images.githubusercontent.com/40735471/189504918-d3b5866a-10e3-4307-917b-b3983557ebc3.png)
+
+### Blind transactions
+
+If we look precisely, then we can understand that we don't need any info about activity on chain to submit stateless transactions (transfers in state-based networks and similar, in UTXO model it not works because you need to lookup which UTXO can you use).
+
+So we can avoid using centralized API endpoints for broadcasting transactions, just form transaction, sign and broadcast directly to p2p swam.
+
