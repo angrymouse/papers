@@ -76,7 +76,6 @@ It involves making query into 3-layer structure/protocol that contains 3 transac
 3. Punishment of validators who replied with misleading info
 
 So way of our query will look like this:
-- Lite node needs some info about chain, it forms query, selects pledge amount that it thinks most validators will accept, selects mining fee for pledge transaction and submits it in blind way
-
-
+- Lite node needs some info about chain, it forms query, selects pledge amount that it thinks most validators will accept, selects mining fee for pledge transaction and submits it in blind way.
+- Lite node provided way (in pledge transaction) how to deliver reply to it, and now it listens for answers of validators. 
 # //WIP
