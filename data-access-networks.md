@@ -6,7 +6,7 @@ Since bitcoin's invention, many blockchains were created with decentralization i
 
 But operating full blockchain node requires relatively good technical knowledge, open ports, big SSD drive and CPU (sometimes even GPU to make it faster) powers.
 
-At the moment of writing (09.08.2022) Bitcoin's full node requires around 420GB of disk space, Ethereum's full node requires around 900 GB of space (non-archival, archival requires 11.7 TB), and there's much more examples of growing chain sizes (while even if you have disk, operating node requires strong CPU and fast internet connection to sync and support full node).
+At the moment of writing (09.08.2022) Bitcoin's full node requires around 420GB of disk space, Ethereum's full node requires around 900 GB of space (non-archival, archival requires 11.7 TB), and there's much more examples of growing chain sizes (while even if you have disk, operating node requires strong CPU and fast internet connection to sync and support full node), days of sync and great internet connection without payment for traffic consumed.
 
 Because of complexiety described above, most users use "Nodes-as-a-service" services like [Infura](https://infura.io/).
 
