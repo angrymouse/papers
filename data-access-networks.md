@@ -1,4 +1,5 @@
 // WIP
+
 #Introduction
 Since bitcoin's invention, many blockchains were created with decentralization in mind. And it works: You really can install full chain node and have access to your blockchain in decentralized way. 
 
