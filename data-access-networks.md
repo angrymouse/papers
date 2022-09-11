@@ -1,6 +1,7 @@
 // WIP
 
-#Introduction
+# Introduction
+
 Since bitcoin's invention, many blockchains were created with decentralization in mind. And it works: You really can install full chain node and have access to your blockchain in decentralized way. 
 
 But operating full blockchain node requires relatively good technical knowledge, open ports, big SSD drive and CPU (sometimes even GPU to make it faster) powers.
