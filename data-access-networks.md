@@ -57,3 +57,9 @@ Now, when we understand how to keep voting powers always updated, we have ultima
 
 But if you don't incentivize validators to sign reply for your query, they most likely won't do it.
 
+Validators have incentive to add your transactions to blocks: They get mining fee.
+
+Queries load validator nodes not less if not more (nodes need to go through indexes and databases to form right reply for you). 
+
+So we need to add mining fee for queries too, to prevent abuse of overloading validator nodes with queries and reward validators who reply with right data.
+
