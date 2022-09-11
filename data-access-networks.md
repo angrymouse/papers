@@ -1,7 +1,4 @@
-// WIP
-
 # Introduction
-
 Since bitcoin's invention, many blockchains were created with decentralization in mind. And it works: You really can install full chain node and have access to your blockchain in decentralized way. 
 
 But operating full blockchain node requires relatively good technical knowledge, open ports, big SSD drive and CPU (sometimes even GPU to make it faster) powers.
@@ -72,12 +69,19 @@ As we already know, we can make stateless, "blind" transactions knowing absolute
 
 It allows us to incentivize validators to reply on your queries.
 
-It involves making query into 3-layer structure/protocol that contains 3 transactions in it:
+It involves making query into 2-layer structure/protocol that contains 2 transactions in it:
 1. Pledge deposit and query info
-2. Rewarding of validators who replied
-3. Punishment of validators who replied with misleading info
+2. Finalizing transaction. Rewarding of validators who replied and punishment of ones who replied with misleading info, claiming 40% of pledge back
 
 So way of our query will look like this:
 - Lite node needs some info about chain, it forms query, selects pledge amount that it thinks most validators will accept, selects mining fee for pledge transaction and submits it in blind way.
 - Lite node provided way (in pledge transaction) how to deliver reply to it, and now it listens for answers of validators. 
+- Validators receive pledge transaction, they calculate, sign and broadcast back reply they consider valid.
+- As soon as lite node received enough replies to select reply that got 51% of voting power, it resolves this reply to app that requested it, but still waits 1 minute to collect as much replies as possible to go to next stage.
+- Now lite node collected all replies from all validators that are active and reply to queries, so it can make finializing transaction that reports about who replied, who didn't reply, and who replied with misleading info.
+- After finalizing transaction is confirmed on chain, validators claim part of pledge based on their part of voting powers, 40% of pledge is returned to lite node's wallet (it financially incentivizes lite node to submit finalizing transaction).
+ - Validators who didn't reply aren't getting any punishment (we can't verify that lite node is not lying about that it didn't get reply, so no punishment can be applied). However they don't get allocated part of pledge neither: It gets burned. 
+ - To disincentivize lite nodes to report false info and don't give part of pledge to validators, lite node's part of pledge (that returns to node's wallet after finalizing transaction is done) gets locked for 10 days (not fully, but only part that is proportional to part of pledge allocated to validator that didn't get his part because node reported that validator didn't answer).
+ - Validators who replied with misleading info get jailed and slashed (other validators can easily verify that validator did reply wrong, as validators sign their replies with their consensus keys)
+- Way is finished. 
 # //WIP
