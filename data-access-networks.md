@@ -83,5 +83,7 @@ So way of our query will look like this:
  - Validators who didn't reply aren't getting any punishment (we can't verify that lite node is not lying about that it didn't get reply, so no punishment can be applied). However they don't get allocated part of pledge neither: It gets burned. 
  - To disincentivize lite nodes to report false info and don't give part of pledge to validators, lite node's part of pledge (that returns to node's wallet after finalizing transaction is done) gets locked for 10 days (not fully, but only part that is proportional to part of pledge allocated to validator that didn't get his part because node reported that validator didn't answer).
  - Validators who replied with misleading info get jailed and slashed (other validators can easily verify that validator did reply wrong, as validators sign their replies with their consensus keys)
-- Way is finished. 
-# //WIP
+
+During this way, we fetched data from chain without connecting to centralized API endpoints and without storing and processing chain itself.
+
+Nik Rykov, nik@hns.is, 09.12.2022
