@@ -53,8 +53,22 @@ Algorithm for recovery after first time authorization:
 - dApp asks wallet provider for master key to decrypt fetched encrypted privkey
 - dApp can use recovered keypair for any encryption or signing needs
 
+### Using arbitrary data derivation possibility (hash) with usage of master key as a secret base for result:
 
+Algorithm of key creation: 
+- dApp generates random keypair in its memory
+- dApp uses generated keypair to sign master key's pubkey (for creation of bidirectional link)
+- dApp asks wallet provider for private hash of master privkey+dApp name
+- dApp uses provided private hash for symmetric (i.e AES) encryption of generated privkey
+- dApp announces subkey creation on public channel that will be accessible later (for example Arweave)
+- dApp can use generated keypair for any encryption or signing needs
 
+Algorithm for recovery after first time authorization:
+- dApp fetches previously announced pubkey and encrypted privkey
+- dApp checks bidirectional signatures to ensure that key is fraud-free
+- dApp asks wallet provider for private hash of master privkey+dApp name (this hash should be exact same hash as in creation step)
+- dApp decrypts subkey's privkey using provided private hash 
+- dApp can use recovered keypair for any encryption or signing needs
 
 ## Terminology
 
