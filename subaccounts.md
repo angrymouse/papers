@@ -1,4 +1,4 @@
-# Cryptographic subkeys in blockchain wallets
+# Cryptographic subkeys in dApps
 Authors: Nik Rykov <nik@hns.is>
 
 License: CC0 Public domain
