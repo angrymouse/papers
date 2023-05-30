@@ -1,6 +1,8 @@
 # Cryptographic subkeys in blockchain wallets
 Authors: Nik Rykov <nik@hns.is>
+
 License: CC0 Public domain
+
 05.30.2023
 
 
