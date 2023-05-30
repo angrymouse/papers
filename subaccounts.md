@@ -19,8 +19,11 @@ To create flexible, secure, UX-friendly approach of interactions with dApps.
 ## Terminology
 
 dApp - decentralized application, application that needs wallet for some operations such as cryptographic authorization, cryptographic encryption, etc. 
+
 master key, wallet, single key - cryptographic keypair used for authorization in dApps.
+
 user - person or entity using dApp with master key. 
+
 subkey - cryptographic keypair which is either derived from master key or to which master key has full access.
 
 ## Requirements
