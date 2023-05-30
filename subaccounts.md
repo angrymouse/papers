@@ -23,4 +23,15 @@ master key, wallet, single key - cryptographic keypair used for authorization in
 user - person or entity using dApp with master key. 
 subkey - cryptographic keypair which is either derived from master key or to which master key has full access.
 
-## Scheme overview
+## Requirements
+
+This scheme requires either:
+- Possibility of using master key for encryption/decryption (i.e RSA)
+- Arbitrary data derivation possibility (hash) with usage of master key as a secret base for result
+
+First way is easy to understand and is recommended to implement if available, however it requires master key's keysystem to support encryption. 
+Some keysystems like RSA support it, but there are systems that don't (like BLS or ed25519), and for them implementing second variant might be optimal solution.
+
+Second way requires master key provider (wallet interface, connector) to implement private hash function - function that would return cryptographic hash of key+dApp name.
+It's recommended to use argon2 for private hash function as it's recommended hash scheme for password (and so keys) derivation.
+
