@@ -16,15 +16,12 @@ This design document provides alternative approach, in which each dApp gets its 
 ## Motivation
 To create flexible, secure, UX-friendly approach of interactions with dApps.
 
-## Terminology
+## Idea
+In web2, the most convinient way to authorize into small services and apps is to use so called authentication services - for that we need to have one main account (google, twitter, microsoft, apple etc) which would give app/site an authorization token with limited scope of what can it do, user would see authorization window that would briefly describe permission scope of given app to your account, and app can do whatever it needs with given token to it (while authorization system will not allow token to go beyond user given permissions).
 
-- dApp - decentralized application, application that needs wallet for some operations such as cryptographic authorization, cryptographic encryption, etc. 
+If we apply this idea to web3, we can come up with dApp having full wallet key in its management, without layer of user wallet somehow acting as a limiter to it. 
+In perfect scenario, dApp would have to only ask wallet provider once - to make/give/derive/decrypt secret keypair to dApp, while further signing/decryption would be already performed using key given by wallet provider to dApp interface, freeing user from needing to interact with wallet provider and allow every action it needs, while not compromising security as main key is remaining untouched. 
 
-- master key, wallet, single key - cryptographic keypair used for authorization in dApps.
-
-- user - person or entity using dApp with master key. 
-
-- subkey - cryptographic keypair which is either derived from master key or to which master key has full access.
 
 ## Requirements
 
@@ -38,3 +35,17 @@ Some keysystems like RSA support it, but there are systems that don't (like BLS 
 Second way requires master key provider (wallet interface, connector) to implement private hash function - function that would return cryptographic hash of key+dApp name.
 It's recommended to use argon2 for private hash function as it's recommended hash scheme for password (and so keys) derivation.
 
+## Algorithm
+
+
+
+## Terminology
+
+- dApp - decentralized application, application that needs wallet for some operations such as cryptographic authorization, cryptographic encryption, etc. 
+
+- master key, wallet, single key - cryptographic keypair used for authorization in dApps.
+
+- user - person or entity using dApp with master key. 
+
+- subkey - cryptographic keypair which is either derived from master key or to which master key has full access.
+ 
