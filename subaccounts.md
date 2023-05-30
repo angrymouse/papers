@@ -37,6 +37,23 @@ It's recommended to use argon2 for private hash function as it's recommended has
 
 ## Algorithm
 
+### Using possibility of using master key for encryption/decryption:
+
+Algorithm of key creation: 
+- dApp generates random keypair in its memory
+- dApp asks wallet provider for master key to sign generated keypair
+- dApp uses generated keypair to sign master key's pubkey (for creation of bidirectional link)
+- dApp encrypts subkey to master key's pubkey
+- dApp announces subkey creation on public channel that will be accessible later (for example Arweave)
+- dApp can use generated keypair for any encryption or signing needs
+
+Algorithm for recovery after first time authorization:
+- dApp fetches previously announced pubkey and encrypted privkey
+- dApp checks bidirectional signatures to ensure that key is fraud-free
+- dApp asks wallet provider for master key to decrypt fetched encrypted privkey
+- dApp can use recovered keypair for any encryption or signing needs
+
+
 
 
 ## Terminology
