@@ -1,4 +1,4 @@
-# Cryptographic subkeys in Cryptographic Subkeys in Decentralized Applications
+# Cryptographic Subkeys in Decentralized Applications
 Authors: Nik Rykov <nik@pentachoron.tech>
 
 License: CC0 Public domain
