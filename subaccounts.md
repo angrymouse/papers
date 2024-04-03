@@ -48,13 +48,22 @@ function recoverSubkey(encryptedSubkey, masterPrivateKey):
     subkeyPrivate = decryptWithPrivateKey(encryptedSubkey, masterPrivateKey)
     return subkeyPrivate
 ```
+#### 4.1.4 Sequence diagram
+
+```mermaid
+sequenceDiagram
+    dApp->>dApp: Generate Key Pair
+    dApp->>Wallet: Encrypt Subkey (Master Public Key)
+    Wallet->>dApp: Encrypted Subkey
+    dApp->>Public Channel: Announce Encrypted Subkey 
+```
 
 ### 4.2. Scenario B: Arbitrary Data Derivation
 
 #### 4.2.1. Subkey Creation
 
-1. **Generate Subkey Pair**: Similar to Scenario A.
-2. **Derive Symmetric Key**: Utilize a hashing function (e.g., Argon2) with the master key and a unique identifier (e.g., dApp name) to derive a symmetric encryption key.
+1. **Generate Subkey Pair**: Similar to Scenario A, a subkey pair is generated for dedicated use by a dApp.
+2. **Derive Symmetric Key**: Utilize a hashing function (e.g., Argon2) with the master key and a unique identifier (e.g., dApp name) to derive a symmetric encryption key. Often, access to signature function is provided. It can act as such a hash function (with master key parameter passed by default) as long as it's deterministic.
 3. **Encrypt Subkey**: Encrypt the subkey's private key using the derived symmetric key.
 4. **Announce Subkey**: The encrypted subkey, its public part, and necessary encryption parameters (e.g., salt, IV) are announced on a public channel for recovery and profile linking across dApps.
 
@@ -69,14 +78,30 @@ function recoverSubkey(encryptedSubkey, masterPrivateKey):
 ```plaintext
 function createSubkey(masterKey, appName):
     subkeyPair = generateKeyPair()
-    derivedKey = deriveKey(masterKey, appName)
+    derivedKey = deriveKey(masterKey, appName) // or signature(appName)
     encryptedSubkey = encryptWithDerivedKey(subkeyPair.private, derivedKey)
     announce(encryptedSubkey, subkeyPair.public, derivedKeyParams)
 
 function recoverSubkey(encryptedSubkey, masterKey, appName):
-    derivedKey = deriveKey(masterKey, appName)
+    derivedKey = deriveKey(masterKey, appName) // or signature(appName)
     subkeyPrivate = decryptWithDerivedKey(encryptedSubkey, derivedKey)
     return subkeyPrivate
+```
+
+#### 4.2.3. Sequence diagram
+
+```mermaid
+sequenceDiagram
+participant dApp
+participant Wallet
+
+dApp->>Wallet: Request Seed (with appName)
+Wallet->>Wallet: Derive Seed (master key, with appName)
+Wallet->>dApp: Seed
+dApp->>dApp: Derive Symmetric Key (seed)
+dApp->>dApp: Encrypt Subkey (derived key)
+dApp->>Public Channel: Announce Encrypted Subkey, Public Key, Encryption Parameters
+
 ```
 
 ## 5. Terminology
