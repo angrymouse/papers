@@ -29,7 +29,7 @@ The implementation of this system must fulfill two core requirements:
 
 1. **Generate Subkey Pair**: The dApp generates a random key pair.
 2. **Encrypt Subkey**: The dApp requests the wallet provider to encrypt the subkey's private key using the master public key.
-3. **Announce Subkey**: The encrypted subkey and its public part are announced on a public channel.
+3. **Announce Subkey**: The encrypted subkey and its public part are announced on a public channel for recovery and profile linking across dApps.
 
 #### 4.1.2. Subkey Recovery
 
@@ -56,7 +56,7 @@ function recoverSubkey(encryptedSubkey, masterPrivateKey):
 1. **Generate Subkey Pair**: Similar to Scenario A.
 2. **Derive Symmetric Key**: Utilize a hashing function (e.g., Argon2) with the master key and a unique identifier (e.g., dApp name) to derive a symmetric encryption key.
 3. **Encrypt Subkey**: Encrypt the subkey's private key using the derived symmetric key.
-4. **Announce Subkey**: The encrypted subkey, its public part, and necessary encryption parameters (e.g., salt, IV) are announced on a public channel.
+4. **Announce Subkey**: The encrypted subkey, its public part, and necessary encryption parameters (e.g., salt, IV) are announced on a public channel for recovery and profile linking across dApps.
 
 #### 4.2.2. Subkey Recovery
 
