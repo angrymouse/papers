@@ -1,82 +1,87 @@
-# Cryptographic subkeys in dApps
-Authors: Nik Rykov <nik@hns.is>
+# Cryptographic subkeys in Cryptographic Subkeys in Decentralized Applications
+Authors: Nik Rykov <nik@pentachoron.tech>
 
 License: CC0 Public domain
 
 05.30.2023
 
+## 1. Introduction
 
+This specification outlines a methodology for enhancing security, user experience, and flexibility in interactions between decentralized applications (dApps) and users by utilizing cryptographic subkeys. Traditionally, a single cryptographic key is used for various operations such as spending currency, encryption/decryption, and smart contract interactions. This document proposes a system where each dApp is granted its own subkey derived from the user's master key, thus separating the concerns and enhancing overall security without compromising usability.
 
-## Abstract
-In blockchain and dApp context, we are used to using single cryptographic key for everything - from spending coins to sending messages, encryption and decryption, smart contract interactions.
-And while this system did work well during past decades since bitcoin invention, we are limited in UX (user has to review each action done via his key), security (even 1 wrongly reviewed action can result in loss of everything), and flexibility (we are limited to usages of key's keysystem, and some keysystems don't support something like encryption, only signatures).
+## 2. Motivation
 
-This design document provides alternative approach, in which each dApp gets its own subkey which is used for user interactions with dApp.
+The primary motivations for this approach include:
+- **Enhanced Security**: By isolating the keys used by different dApps, the impact of a security breach in one dApp is limited to that dApp only.
+- **Improved User Experience**: Users can interact with dApps without repeatedly approving actions through their wallet provider, streamlining the process.
+- **Increased Flexibility**: This method is adaptable to various cryptographic key systems, including those that do not natively support encryption.
 
-## Motivation
-To create flexible, secure, UX-friendly approach of interactions with dApps.
+## 3. Requirements
 
-## Idea
-In web2, the most convinient way to authorize into small services and apps is to use so called authentication services - for that we need to have one main account (google, twitter, microsoft, apple etc) which would give app/site an authorization token with limited scope of what can it do, user would see authorization window that would briefly describe permission scope of given app to your account, and app can do whatever it needs with given token to it (while authorization system will not allow token to go beyond user given permissions).
+The implementation of this system must fulfill two core requirements:
+- The master key system must support either direct encryption/decryption capabilities or allow for arbitrary data derivation using a secret base (e.g., using hash functions like Argon2 for key derivation).
 
-If we apply this idea to web3, we can come up with dApp having full wallet key in its management, without layer of user wallet somehow acting as a limiter to it. 
-In perfect scenario, dApp would have to only ask wallet provider once - to make/give/derive/decrypt secret keypair to dApp, while further signing/decryption would be already performed using key given by wallet provider to dApp interface, freeing user from needing to interact with wallet provider and allow every action it needs, while not compromising security as main key is remaining untouched. 
+## 4. Implementation
 
+### 4.1. Scenario A: Master Key with Encryption/Decryption Support
 
-## Requirements
+#### 4.1.1. Subkey Creation
 
-This scheme requires either:
-- Possibility of using master key for encryption/decryption (i.e RSA)
-- Arbitrary data derivation possibility (hash) with usage of master key as a secret base for result
+1. **Generate Subkey Pair**: The dApp generates a random key pair.
+2. **Encrypt Subkey**: The dApp requests the wallet provider to encrypt the subkey's private key using the master public key.
+3. **Announce Subkey**: The encrypted subkey and its public part are announced on a public channel.
 
-First way is easy to understand and is recommended to implement if available, however it requires master key's keysystem to support encryption. 
-Some keysystems like RSA support it, but there are systems that don't (like BLS or ed25519), and for them implementing second variant might be optimal solution.
+#### 4.1.2. Subkey Recovery
 
-Second way requires master key provider (wallet interface, connector) to implement private hash function - function that would return cryptographic hash of key+dApp name.
-It's recommended to use argon2 for private hash function as it's recommended hash scheme for password (and so keys) derivation.
+1. **Fetch Announced Data**: The dApp retrieves the encrypted subkey and its public part.
+2. **Decrypt Subkey**: The dApp requests the wallet provider to decrypt the subkey's private key using the master private key.
 
-## Algorithm
+#### 4.1.3. Pseudocode Example
 
-### Using possibility of using master key for encryption/decryption:
+```plaintext
+function createSubkey(masterPublicKey):
+    subkeyPair = generateKeyPair()
+    encryptedSubkey = encryptWithPublicKey(subkeyPair.private, masterPublicKey)
+    announce(encryptedSubkey, subkeyPair.public)
 
-Algorithm of key creation: 
-- dApp generates random keypair in its memory
-- dApp asks wallet provider for master key to sign generated keypair
-- dApp uses generated keypair to sign master key's pubkey (for creation of bidirectional link)
-- dApp encrypts subkey to master key's pubkey
-- dApp announces subkey creation on public channel that will be accessible later (for example Arweave)
-- dApp can use generated keypair for any encryption or signing needs
+function recoverSubkey(encryptedSubkey, masterPrivateKey):
+    subkeyPrivate = decryptWithPrivateKey(encryptedSubkey, masterPrivateKey)
+    return subkeyPrivate
+```
 
-Algorithm for recovery after first time authorization:
-- dApp fetches previously announced pubkey and encrypted privkey
-- dApp checks bidirectional signatures to ensure that key is fraud-free
-- dApp asks wallet provider for master key to decrypt fetched encrypted privkey
-- dApp can use recovered keypair for any encryption or signing needs
+### 4.2. Scenario B: Arbitrary Data Derivation
 
-### Using arbitrary data derivation possibility (hash) with usage of master key as a secret base for result:
+#### 4.2.1. Subkey Creation
 
-Algorithm of key creation: 
-- dApp generates random keypair in its memory
-- dApp uses generated keypair to sign master key's pubkey (for creation of bidirectional link)
-- dApp asks wallet provider for private hash of master privkey+dApp name
-- dApp uses provided private hash for symmetric (i.e AES) encryption of generated privkey
-- dApp announces subkey creation on public channel that will be accessible later (for example Arweave)
-- dApp can use generated keypair for any encryption or signing needs
+1. **Generate Subkey Pair**: Similar to Scenario A.
+2. **Derive Symmetric Key**: Utilize a hashing function (e.g., Argon2) with the master key and a unique identifier (e.g., dApp name) to derive a symmetric encryption key.
+3. **Encrypt Subkey**: Encrypt the subkey's private key using the derived symmetric key.
+4. **Announce Subkey**: The encrypted subkey, its public part, and necessary encryption parameters (e.g., salt, IV) are announced on a public channel.
 
-Algorithm for recovery after first time authorization:
-- dApp fetches previously announced pubkey and encrypted privkey
-- dApp checks bidirectional signatures to ensure that key is fraud-free
-- dApp asks wallet provider for private hash of master privkey+dApp name (this hash should be exact same hash as in creation step)
-- dApp decrypts subkey's privkey using provided private hash 
-- dApp can use recovered keypair for any encryption or signing needs
+#### 4.2.2. Subkey Recovery
 
-## Terminology
+1. **Fetch Announced Data**: Similar to Scenario A.
+2. **Derive Symmetric Key**: Derive the symmetric encryption key using the same process as during creation.
+3. **Decrypt Subkey**: Decrypt the subkey's private key using the derived symmetric key.
 
-- dApp - decentralized application, application that needs wallet for some operations such as cryptographic authorization, cryptographic encryption, etc. 
+#### 4.2.3. Pseudocode Example
 
-- master key, wallet, single key - cryptographic keypair used for authorization in dApps.
+```plaintext
+function createSubkey(masterKey, appName):
+    subkeyPair = generateKeyPair()
+    derivedKey = deriveKey(masterKey, appName)
+    encryptedSubkey = encryptWithDerivedKey(subkeyPair.private, derivedKey)
+    announce(encryptedSubkey, subkeyPair.public, derivedKeyParams)
 
-- user - person or entity using dApp with master key. 
+function recoverSubkey(encryptedSubkey, masterKey, appName):
+    derivedKey = deriveKey(masterKey, appName)
+    subkeyPrivate = decryptWithDerivedKey(encryptedSubkey, derivedKey)
+    return subkeyPrivate
+```
 
-- subkey - cryptographic keypair which is either derived from master key or to which master key has full access.
- 
+## 5. Terminology
+
+- **dApp**: Decentralized application requiring cryptographic operations.
+- **Master Key**: The primary cryptographic keypair used by the user for dApp interactions.
+- **Subkey**: A cryptographic keypair, derived from the master key, dedicated to a specific dApp.
+- **User**: The entity utilizing the dApp through a master key.
