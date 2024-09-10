@@ -1,5 +1,5 @@
-# papers
-All my papers
+# Papers
+All my research and development works that I happened to document on digital paper.
 
 ## Relay ring protocol 
 Relay ring protocol is specification for very much "classic" cryptocurrency bridge design, using threshold signatures for bridging.
