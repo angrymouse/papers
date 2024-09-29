@@ -6,7 +6,7 @@ nik@hns.is
 
 This document describes scheme of relay-ring network.
 
-# Introduction to problem
+# Introduction
 
 After invention of Bitcoin [1], there were created a lot of projects on blockchain technology. All these projects are unique, each chain is like unique dimension: Everything what happens there usually has no effect on other chains.
 
