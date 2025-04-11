@@ -5,6 +5,7 @@ All my research and development works that I happened to document on digital pap
 LOAD AVS: a horizontally scalable decentralized storage network for temporary data.
 
 [Read](https://gateway.load.rs/bundle/0x02134982f8ed7be5013bb2c2477f62fc7c60eec0d46d140c15c57c0c36da9141/0)
+
 [Read (GitHub hosted)](./loadavs.pdf)
 
 ## Relay ring protocol 
